@@ -1,0 +1,110 @@
+{"id":"es-s-001","lang":"es","label":"scam","category":"banco","difficulty":"easy","text":"BBVA: Hemos detectado un acceso no autorizado en su cuenta. Verifique su identidad para no bloquearla: http://bbva-clientes-seguro.com"}
+{"id":"es-s-002","lang":"es","label":"scam","category":"banco","difficulty":"easy","text":"Santander: Su cuenta ha sido suspendida temporalmente por seguridad. Reactívela aqui: https://santander-seguridad.net/acceso"}
+{"id":"es-s-003","lang":"es","label":"scam","category":"banco","difficulty":"easy","text":"CaixaBank: Nuevo dispositivo conectado a su banca. Si no ha sido usted, confirme aqui: http://caixa-verificacion.info"}
+{"id":"es-s-004","lang":"es","label":"scam","category":"banco","difficulty":"easy","text":"ING: Su tarjeta sera cancelada en 24h por motivos de seguridad. Evitelo validando sus datos: https://ing-clientes.online/validar"}
+{"id":"es-s-005","lang":"es","label":"scam","category":"banco","difficulty":"hard","text":"Sabadell: Se ha realizado un cargo de 499,00€ en su tarjeta. Si no lo reconoce, cancelelo aqui: http://sabadell-cancelar-pago.com"}
+{"id":"es-s-006","lang":"es","label":"scam","category":"banco","difficulty":"hard","text":"Su clave de banca online caduca hoy. Renuevela ahora para no perder el acceso a su cuenta: bit.ly/clave-banco"}
+{"id":"es-s-007","lang":"es","label":"scam","category":"banco","difficulty":"hard","text":"BBVA: su cuenta presenta actividad inusual y hemos limitado sus operaciones. Restaure el acceso: https://bbva.secure-login.com"}
+{"id":"es-s-008","lang":"es","label":"scam","category":"banco","difficulty":"hard","text":"Bizum: ha recibido una solicitud de cobro de 300€. Acepte o rechace la operacion aqui: http://bizum-pagos.net"}
+{"id":"es-s-009","lang":"es","label":"scam","category":"banco","difficulty":"hard","text":"Estimado cliente, confirme los 16 digitos de su tarjeta y su PIN respondiendo a este mensaje para desbloquear el acceso."}
+{"id":"es-s-010","lang":"es","label":"scam","category":"banco","difficulty":"hard","text":"URGENTE: su cuenta de PayPal ha sido limitada. Resuelva el problema en las proximas 2 horas: http://paypal-resolucion.info"}
+{"id":"es-s-011","lang":"es","label":"scam","category":"paqueteria","difficulty":"easy","text":"Correos: Su paquete esta retenido en aduanas. Abone la tasa de 1,79€ para recibirlo: https://correos-tasas.info/pago"}
+{"id":"es-s-012","lang":"es","label":"scam","category":"paqueteria","difficulty":"easy","text":"SEUR: No hemos podido entregar su envio. Reprograme la entrega aqui: http://seur-reprogramar.com"}
+{"id":"es-s-013","lang":"es","label":"scam","category":"paqueteria","difficulty":"easy","text":"DHL: Su paquete espera confirmacion de direccion. Actualice sus datos: https://dhl-entrega.online"}
+{"id":"es-s-014","lang":"es","label":"scam","category":"paqueteria","difficulty":"hard","text":"GLS: direccion incompleta, no podemos entregar su pedido. Complete los datos: bit.ly/gls-envio"}
+{"id":"es-s-015","lang":"es","label":"scam","category":"paqueteria","difficulty":"hard","text":"Su paquete de Amazon no ha podido entregarse. Abone 2,99€ de gastos de reenvio: http://amazon-reenvio.info"}
+{"id":"es-s-016","lang":"es","label":"scam","category":"paqueteria","difficulty":"hard","text":"Tiene un paquete pendiente desde hace 3 dias. Ultimo aviso antes de la devolucion: http://track-paquete.top"}
+{"id":"es-s-017","lang":"es","label":"scam","category":"administracion","difficulty":"easy","text":"Agencia Tributaria: le corresponde una devolucion de 348,50€. Solicitela antes de que caduque: https://agenciatributaria-devolucion.com"}
+{"id":"es-s-018","lang":"es","label":"scam","category":"administracion","difficulty":"easy","text":"Hacienda: tiene una notificacion pendiente. Acceda antes de 48h para evitar una sancion: http://sede-hacienda.info"}
+{"id":"es-s-019","lang":"es","label":"scam","category":"administracion","difficulty":"hard","text":"Seguridad Social: su prestacion requiere verificar sus datos bancarios para seguir cobrando: https://segsocial-tramite.online"}
+{"id":"es-s-020","lang":"es","label":"scam","category":"administracion","difficulty":"hard","text":"DGT: tiene una multa de trafico pendiente. Pague hoy con un 50% de descuento: http://dgt-multas-pago.com"}
+{"id":"es-s-021","lang":"es","label":"scam","category":"administracion","difficulty":"hard","text":"Ministerio de Sanidad: actualice su tarjeta sanitaria para seguir teniendo cobertura: bit.ly/tarjeta-sanitaria"}
+{"id":"es-s-022","lang":"es","label":"scam","category":"cuentas","difficulty":"easy","text":"Netflix: su pago ha sido rechazado. Actualice su metodo de pago para no perder el servicio: http://netflix-pago.info"}
+{"id":"es-s-023","lang":"es","label":"scam","category":"cuentas","difficulty":"easy","text":"Su Apple ID ha sido bloqueado por seguridad. Verifique su identidad aqui: https://appleid-seguridad.com"}
+{"id":"es-s-024","lang":"es","label":"scam","category":"cuentas","difficulty":"hard","text":"WhatsApp: su cuenta se desactivara en 24h. Verifique su numero para mantenerla activa: http://whatsapp-verificar.net"}
+{"id":"es-s-025","lang":"es","label":"scam","category":"cuentas","difficulty":"hard","text":"Microsoft: hemos detectado actividad sospechosa en su cuenta. Confirme que es usted: https://microsoft-alerta.online"}
+{"id":"es-s-026","lang":"es","label":"scam","category":"cuentas","difficulty":"hard","text":"Su suscripcion de Amazon Prime se renovara por 79€. Si no lo desea, cancele aqui: http://prime-cancelar.net"}
+{"id":"es-s-027","lang":"es","label":"scam","category":"premio","difficulty":"easy","text":"FELICIDADES! Ha sido seleccionado para ganar un iPhone 16. Reclame su premio aqui: http://premio-iphone.top"}
+{"id":"es-s-028","lang":"es","label":"scam","category":"premio","difficulty":"easy","text":"Ha ganado 950.000€ en la Loteria Europea. Contacte para gestionar el cobro: loteria.premios@correo.com"}
+{"id":"es-s-029","lang":"es","label":"scam","category":"premio","difficulty":"easy","text":"Enhorabuena, su numero ha sido premiado con un bono de 500€ de Mercadona. Recojalo: http://mercadona-bono.info"}
+{"id":"es-s-030","lang":"es","label":"scam","category":"herencia","difficulty":"hard","text":"Estimado beneficiario, tiene una herencia de un familiar lejano. Responda con sus datos personales para gestionarla."}
+{"id":"es-s-031","lang":"es","label":"scam","category":"familia","difficulty":"hard","text":"Hola mama, se me ha roto el movil y este es mi numero nuevo. Guardalo. Necesito que me hagas un Bizum urgente, manana te lo devuelvo."}
+{"id":"es-s-032","lang":"es","label":"scam","category":"familia","difficulty":"hard","text":"Papa soy yo, he tenido un problema con el telefono. Necesito que me hagas una transferencia y luego te explico, es urgente."}
+{"id":"es-s-033","lang":"es","label":"scam","category":"familia","difficulty":"hard","text":"Mama este es mi nuevo WhatsApp, cambia el antiguo. Tengo que hacer un pago y no puedo entrar en mi banco, me ayudas?"}
+{"id":"es-s-034","lang":"es","label":"scam","category":"energia","difficulty":"easy","text":"Iberdrola: factura impagada. Su suministro sera cortado en 24h. Regularice el pago aqui: http://iberdrola-pago.info"}
+{"id":"es-s-035","lang":"es","label":"scam","category":"energia","difficulty":"hard","text":"Endesa: le corresponde un reembolso de 72€ por un sobrepago. Solicitelo con sus datos bancarios: https://endesa-reembolso.com"}
+{"id":"es-s-036","lang":"es","label":"scam","category":"energia","difficulty":"hard","text":"Movistar: su linea sera dada de baja por un error en sus datos. Actualicelos aqui: bit.ly/movistar-datos"}
+{"id":"es-s-037","lang":"es","label":"scam","category":"inversion","difficulty":"easy","text":"Oportunidad unica: invierta 250€ en Bitcoin y gane 3.000€ en una semana. Empiece ahora: http://cripto-ganancias.top"}
+{"id":"es-s-038","lang":"es","label":"scam","category":"inversion","difficulty":"hard","text":"Trabaje desde casa y gane 200€ al dia solo con su movil. Plazas limitadas, escriba por WhatsApp al +34 6XX XXX XXX."}
+{"id":"es-s-039","lang":"es","label":"scam","category":"cuentas","difficulty":"hard","text":"Detectamos un inicio de sesion desde Rusia en su correo. Proteja su cuenta de inmediato: bit.ly/proteger-correo"}
+{"id":"es-s-040","lang":"es","label":"scam","category":"soporte","difficulty":"hard","text":"Aqui tiene el enlace del que le hable por telefono. Entre y siga los pasos para arreglar su ordenador: http://soporte-remoto.top"}
+{"id":"es-s-041","lang":"es","label":"scam","category":"banco","difficulty":"hard","text":"Su codigo de verificacion es 8842. Facilitelo al agente que le esta llamando para completar la seguridad de su cuenta."}
+{"id":"es-s-042","lang":"es","label":"scam","category":"paqueteria","difficulty":"hard","text":"Correos Express: intento de entrega fallido. Pague la reexpedicion de 1,45€ para recibir su envio: http://correosexpress-pago.info"}
+{"id":"es-s-043","lang":"es","label":"scam","category":"banco","difficulty":"hard","text":"Aviso de seguridad: su tarjeta ha sido usada en un pais extranjero. Bloquee el cargo aqui: http://tarjeta-bloqueo.online"}
+{"id":"es-s-044","lang":"es","label":"scam","category":"administracion","difficulty":"hard","text":"Se le ha asignado una ayuda del Gobierno de 200€ por la subida de precios. Solicitela con su numero de cuenta: bit.ly/ayuda-gobierno"}
+{"id":"es-s-045","lang":"es","label":"scam","category":"cuentas","difficulty":"hard","text":"Su buzon de correo ha superado el limite y sera desactivado. Amplie el almacenamiento aqui: http://correo-almacenamiento.top"}
+{"id":"es-s-046","lang":"es","label":"scam","category":"banco","difficulty":"easy","text":"BBVA: confirme su numero de telefono y clave para activar el nuevo sistema de seguridad: https://bbva-activacion.info"}
+{"id":"es-s-047","lang":"es","label":"scam","category":"premio","difficulty":"easy","text":"Su tarjeta de fidelidad de El Corte Ingles tiene 300 puntos por caducar. Canjeelos ya: http://eci-puntos.top"}
+{"id":"es-s-048","lang":"es","label":"scam","category":"paqueteria","difficulty":"hard","text":"UPS: su envio requiere el pago de aranceles. Importe: 3,20€. Pague para liberar el paquete: https://ups-aduana.online"}
+{"id":"es-s-049","lang":"es","label":"scam","category":"banco","difficulty":"hard","text":"Hemos bloqueado un pago sospechoso de 780€ en su cuenta. Para revisarlo, acceda: http://revisar-pago-banco.com"}
+{"id":"es-s-050","lang":"es","label":"scam","category":"administracion","difficulty":"hard","text":"Su cita del DNI ha sido cancelada. Para reprogramarla debe abonar una tasa de 4,50€: http://dni-cita.info"}
+{"id":"es-s-051","lang":"es","label":"scam","category":"energia","difficulty":"hard","text":"Naturgy: hemos detectado una lectura erronea. Reclame su reembolso de 58€ aqui: bit.ly/naturgy-reembolso"}
+{"id":"es-s-052","lang":"es","label":"scam","category":"cuentas","difficulty":"hard","text":"Su cuenta de Instagram sera suspendida por infringir las normas. Apele en las proximas 12h: http://instagram-apelacion.top"}
+{"id":"es-s-053","lang":"es","label":"scam","category":"familia","difficulty":"hard","text":"Hola abuela soy tu nieto, cambie de numero. Estoy en un apuro y necesito 150€ por Bizum, no se lo digas a mama todavia."}
+{"id":"es-s-054","lang":"es","label":"scam","category":"banco","difficulty":"hard","text":"Ultimo aviso: su acceso a la banca movil expira hoy. Renueve sus credenciales para no perderlo: http://banca-renovar.online"}
+{"id":"es-s-055","lang":"es","label":"scam","category":"premio","difficulty":"easy","text":"Has sido el visitante 1.000.000. Reclama tu premio de 1.000€ ahora antes de que expire: http://ganador-premio.top"}
+{"id":"es-l-001","lang":"es","label":"legit","category":"codigo2fa","difficulty":"hard","text":"Tu codigo de BBVA es 493028. No lo compartas con nadie, ni siquiera con el banco."}
+{"id":"es-l-002","lang":"es","label":"legit","category":"codigo2fa","difficulty":"hard","text":"748291 es tu codigo de verificacion de WhatsApp. No lo compartas."}
+{"id":"es-l-003","lang":"es","label":"legit","category":"codigo2fa","difficulty":"hard","text":"Tu codigo de un solo uso para tu compra en Amazon es 55219."}
+{"id":"es-l-004","lang":"es","label":"legit","category":"codigo2fa","difficulty":"hard","text":"Codigo Correos: 30217. Usalo para recoger tu paquete en la oficina."}
+{"id":"es-l-005","lang":"es","label":"legit","category":"codigo2fa","difficulty":"hard","text":"Tu Cl@ve PIN para acceder a la Seguridad Social es 4471. Valido durante 10 minutos."}
+{"id":"es-l-006","lang":"es","label":"legit","category":"banco-info","difficulty":"hard","text":"BBVA: se ha realizado un cargo de 45,20€ en tu tarjeta terminada en 4471 el 12/07."}
+{"id":"es-l-007","lang":"es","label":"legit","category":"banco-info","difficulty":"hard","text":"CaixaBank: se ha abonado tu nomina de 1.850,00€ en tu cuenta."}
+{"id":"es-l-008","lang":"es","label":"legit","category":"banco-info","difficulty":"hard","text":"ING: has recibido una transferencia de 200€ de JUAN PEREZ. Concepto: comida del domingo."}
+{"id":"es-l-009","lang":"es","label":"legit","category":"banco-info","difficulty":"hard","text":"Santander: recordatorio, manana se cargara el recibo de la luz por 68,00€."}
+{"id":"es-l-010","lang":"es","label":"legit","category":"banco-info","difficulty":"hard","text":"Abanca: tu saldo disponible es de 1.240,55€. Consulta tus movimientos en la app."}
+{"id":"es-l-011","lang":"es","label":"legit","category":"paqueteria-info","difficulty":"hard","text":"Amazon: tu pedido llegara hoy entre las 14:00 y las 16:00. Sigue el envio desde la app."}
+{"id":"es-l-012","lang":"es","label":"legit","category":"paqueteria-info","difficulty":"hard","text":"SEUR: tu paquete se entregara manana. El repartidor te avisara antes de llegar."}
+{"id":"es-l-013","lang":"es","label":"legit","category":"paqueteria-info","difficulty":"hard","text":"Correos: tu envio esta disponible para recoger en tu oficina hasta el 20/07. Lleva el aviso y tu DNI."}
+{"id":"es-l-014","lang":"es","label":"legit","category":"paqueteria-info","difficulty":"easy","text":"Glovo: tu pedido esta en camino, llega en unos 15 minutos."}
+{"id":"es-l-015","lang":"es","label":"legit","category":"salud","difficulty":"hard","text":"Centro de Salud San Blas: recordatorio de su cita el 15/07 a las 10:30 con la Dra. Gomez."}
+{"id":"es-l-016","lang":"es","label":"legit","category":"salud","difficulty":"easy","text":"Farmacia Ruiz: su medicacion ya esta preparada para recoger cuando le venga bien."}
+{"id":"es-l-017","lang":"es","label":"legit","category":"salud","difficulty":"hard","text":"Hospital La Paz: su cita para analisis es el 18/07 a las 8:00. Acuda en ayunas."}
+{"id":"es-l-018","lang":"es","label":"legit","category":"salud","difficulty":"easy","text":"Recuerde tomar su medicacion de la tension esta noche antes de dormir."}
+{"id":"es-l-019","lang":"es","label":"legit","category":"familia","difficulty":"easy","text":"Hola mama, llego sobre las 8. Necesitas que compre algo para la cena?"}
+{"id":"es-l-020","lang":"es","label":"legit","category":"familia","difficulty":"easy","text":"Abuela, manana te llamo por videollamada para ensenarte al peque. Un beso muy fuerte."}
+{"id":"es-l-021","lang":"es","label":"legit","category":"familia","difficulty":"easy","text":"Papa, ya he llegado bien a Madrid. Te llamo esta noche cuando me instale."}
+{"id":"es-l-022","lang":"es","label":"legit","category":"familia","difficulty":"easy","text":"Vienes el domingo a comer? Hago paella. Avisame para saber cuantos somos."}
+{"id":"es-l-023","lang":"es","label":"legit","category":"familia","difficulty":"easy","text":"Feliz cumpleanos tia! Que pases un dia estupendo, nos vemos el finde."}
+{"id":"es-l-024","lang":"es","label":"legit","category":"comercio","difficulty":"hard","text":"Mercadona: tu compra online del 12/07 ha sido confirmada. Entrega manana por la manana."}
+{"id":"es-l-025","lang":"es","label":"legit","category":"comercio","difficulty":"hard","text":"Movistar: tu factura de julio (52,30€) ya esta disponible en tu area de cliente."}
+{"id":"es-l-026","lang":"es","label":"legit","category":"comercio","difficulty":"hard","text":"Iberdrola: hemos recibido correctamente tu pago de la factura de junio. Gracias."}
+{"id":"es-l-027","lang":"es","label":"legit","category":"cita","difficulty":"hard","text":"Tu cita en la ITV es el 22/07 a las 9:15. No olvides traer la documentacion del vehiculo."}
+{"id":"es-l-028","lang":"es","label":"legit","category":"cita","difficulty":"easy","text":"Gimnasio Vitalia: recuerda que manana hay clase de yoga a las 18:00."}
+{"id":"es-l-029","lang":"es","label":"legit","category":"cita","difficulty":"easy","text":"Tu reserva en el Restaurante El Olivo para 4 personas el sabado a las 21:00 esta confirmada."}
+{"id":"es-l-030","lang":"es","label":"legit","category":"cita","difficulty":"hard","text":"Cita previa para renovar el DNI confirmada: 25/07 a las 11:00 en la comisaria de tu localidad."}
+{"id":"es-l-031","lang":"es","label":"legit","category":"alerta-oficial","difficulty":"hard","text":"AEMET: aviso naranja por lluvias intensas en tu provincia manana. Extrema la precaucion."}
+{"id":"es-l-032","lang":"es","label":"legit","category":"alerta-oficial","difficulty":"hard","text":"Proteccion Civil: alerta por temporal de viento. Evita desplazamientos innecesarios hoy."}
+{"id":"es-l-033","lang":"es","label":"legit","category":"familia","difficulty":"easy","text":"Mama no te preocupes por lo del medico, todo salio bien. Te lo cuento cuando vaya."}
+{"id":"es-l-034","lang":"es","label":"legit","category":"comercio","difficulty":"easy","text":"Tu pedido en la panaderia esta listo. Puedes pasar a recogerlo hasta las 20h."}
+{"id":"es-l-035","lang":"es","label":"legit","category":"banco-info","difficulty":"hard","text":"Unicaja: el recibo de la comunidad de vecinos (95€) se cargara el dia 30."}
+{"id":"es-l-036","lang":"es","label":"legit","category":"salud","difficulty":"hard","text":"Centro Medico: sus resultados de analisis ya estan disponibles. Consultelos con su medico en la proxima cita."}
+{"id":"es-l-037","lang":"es","label":"legit","category":"codigo2fa","difficulty":"hard","text":"Tu codigo de acceso para la sede de la Agencia Tributaria es 61204. Caduca en 5 minutos."}
+{"id":"es-l-038","lang":"es","label":"legit","category":"comercio","difficulty":"hard","text":"Endesa: la lectura de tu contador se realizara la semana que viene. No necesitas hacer nada."}
+{"id":"es-l-039","lang":"es","label":"legit","category":"familia","difficulty":"easy","text":"Hola cari, se me olvido decirte que el nino tiene futbol el sabado a las 10. Puedes llevarlo tu?"}
+{"id":"es-l-040","lang":"es","label":"legit","category":"paqueteria-info","difficulty":"hard","text":"Amazon: tu paquete no se ha podido entregar porque no habia nadie. Se reintentara manana sin coste."}
+{"id":"es-l-041","lang":"es","label":"legit","category":"comercio","difficulty":"easy","text":"Peluqueria Marisa: te recordamos tu cita del jueves a las 17:00. Si no puedes venir, avisanos."}
+{"id":"es-l-042","lang":"es","label":"legit","category":"banco-info","difficulty":"hard","text":"BBVA: tu tarjeta de credito vence este mes. Recibiras la nueva en tu domicilio, no tienes que hacer nada."}
+{"id":"es-l-043","lang":"es","label":"legit","category":"cita","difficulty":"easy","text":"Recordatorio: manana tienes revision del coche en el taller a las 9:30."}
+{"id":"es-l-044","lang":"es","label":"legit","category":"familia","difficulty":"easy","text":"Papa, te he mandado unas fotos de las vacaciones por WhatsApp. Miralas cuando puedas."}
+{"id":"es-l-045","lang":"es","label":"legit","category":"salud","difficulty":"hard","text":"Su cita de vacunacion de la gripe es el 10/10 en su centro de salud. No necesita pedir cita previa."}
+{"id":"es-l-046","lang":"es","label":"legit","category":"comercio","difficulty":"hard","text":"Vodafone: has consumido el 80% de tus datos moviles este mes. Consulta tu consumo en la app."}
+{"id":"es-l-047","lang":"es","label":"legit","category":"familia","difficulty":"easy","text":"Abuelo, gracias por el regalo, me ha encantado! Te llamo el domingo para contarte. Un abrazo."}
+{"id":"es-l-048","lang":"es","label":"legit","category":"banco-info","difficulty":"hard","text":"ING: tu domiciliacion del seguro del hogar (32,10€) se ha pagado correctamente."}
+{"id":"es-l-049","lang":"es","label":"legit","category":"cita","difficulty":"easy","text":"Optica Vision: tus gafas nuevas ya estan listas. Pasa a recogerlas cuando quieras."}
+{"id":"es-l-050","lang":"es","label":"legit","category":"comercio","difficulty":"hard","text":"Correos: el cartero ha dejado un aviso en tu buzon. Recoge tu carta certificada en la oficina con tu DNI."}
+{"id":"es-l-051","lang":"es","label":"legit","category":"familia","difficulty":"hard","text":"Mama soy Ana, te escribo desde el movil de una amiga porque me quede sin bateria. Llego bien a casa, no te preocupes."}
+{"id":"es-l-052","lang":"es","label":"legit","category":"salud","difficulty":"easy","text":"Recuerde que manana tiene sesion de fisioterapia a las 12:00. Traiga ropa comoda."}
+{"id":"es-l-053","lang":"es","label":"legit","category":"comercio","difficulty":"easy","text":"Tu libro reservado en la biblioteca ya esta disponible. Puedes recogerlo esta semana."}
+{"id":"es-l-054","lang":"es","label":"legit","category":"banco-info","difficulty":"hard","text":"Kutxabank: tu plazo fijo vence el 15/08. Si no indicas lo contrario, se renovara automaticamente."}
+{"id":"es-l-055","lang":"es","label":"legit","category":"familia","difficulty":"easy","text":"Hola mama, el medico me ha dado el alta, ya estoy mucho mejor. Nos vemos el finde. Un beso."}

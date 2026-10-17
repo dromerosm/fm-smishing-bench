@@ -1,0 +1,18 @@
+{
+  "accuracy" : 1,
+  "dataset" : "data\/es_curated.jsonl",
+  "f1" : 1,
+  "false_negative_rate" : 0,
+  "false_positive_rate" : 0,
+  "FN" : 0,
+  "FP" : 0,
+  "inference_errors" : 0,
+  "latency_cold_ms" : 3.3259391784667969,
+  "latency_p50_ms" : 315.24205207824707,
+  "latency_p95_ms" : 392.8300142288208,
+  "n" : 110,
+  "precision" : 1,
+  "recall" : 1,
+  "TN" : 55,
+  "TP" : 55
+}

@@ -1,0 +1,18 @@
+{
+  "accuracy" : 0.93832599118942728,
+  "dataset" : "data\/es_adversarial_v2.jsonl",
+  "f1" : 0.94166666666666676,
+  "false_negative_rate" : 0.081300813008130079,
+  "false_positive_rate" : 0.038461538461538464,
+  "FN" : 10,
+  "FP" : 4,
+  "inference_errors" : 0,
+  "latency_cold_ms" : 5.8879852294921875,
+  "latency_p50_ms" : 318.2990550994873,
+  "latency_p95_ms" : 380.13601303100586,
+  "n" : 227,
+  "precision" : 0.96581196581196582,
+  "recall" : 0.91869918699186992,
+  "TN" : 100,
+  "TP" : 113
+}

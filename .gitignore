@@ -1,0 +1,7 @@
+build/
+results/*
+!results/reference/
+.DS_Store
+__pycache__/
+.env
+ios/*.xcodeproj/
