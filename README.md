@@ -1,5 +1,7 @@
 # fm-smishing-bench
 
+![Same code. New OS. Different answers. 337 test messages, 12 get a different verdict on iPhone than on Mac.](assets/hero.png)
+
 A small, reproducible benchmark for detecting SMS scams (smishing) with **Apple's on-device Foundation Models**, compared with open-weight models in the cloud (`gpt-oss` on Groq).
 
 It comes from building an SMS filter that protects older people in Spain. You get the datasets, the exact prompt, the rule layer that runs before the model, a Mac command-line harness, a small iPhone app that runs the same pipeline, a statistics script, and every prediction we measured.
@@ -12,8 +14,8 @@ Supported by the data in this repo:
 
 - **The on-device model's answers changed with the OS update.** Same code, same prompt, greedy sampling: macOS 26.5 and macOS 27.0.1 give different verdicts on 11 of the 227 hardest messages.
 - **On 27.0.1, Mac and iPhone disagree.** 12 of 337 unique messages get a different verdict on an iPhone 15 Pro than on a Mac with the same OS version. On 26.5 they gave identical confusion matrices on the sets we compared.
-- **Each device is deterministic on its own.** Repeated runs gave identical predictions (Mac: 3 runs on 27.0.1; iPhone: 3 runs).
-- **No refusals or guardrail errors on 27.0.1** on these datasets, with either guardrail setting. On the Mac and on Groq, every model answer was literally `JUNK` or `ALLOW`.
+- **Each device is deterministic on its own.** Repeated runs gave identical predictions (Mac: 3 runs on 27.0.1; iPhone: 4 runs).
+- **No refusals or guardrail errors on 27.0.1** on these datasets, with either guardrail setting. On the Mac, the iPhone and Groq, every model answer was literally `JUNK` or `ALLOW`.
 - **The rule layer never made a mistake.** It decides 100 of the 337 messages without the model, with 0 errors on every device and OS version. Every error comes from the model.
 - **No legitimate message was blocked silently**, on any device or version, because a model verdict can only trigger a warning.
 - **Resource use on the iPhone 15 Pro**: about 15 MB in the app, about 455 MB in the system process that runs the model, 0.75 to 1.25 s per message.
@@ -39,6 +41,7 @@ Not supported, so we don't claim it:
 | `python/groq_bench.py` | Same pipeline, but the model layer calls Groq. See [Cloud comparison](#cloud-comparison-groq). |
 | `python/stats.py` | Confidence intervals and paired significance tests for any set of runs. |
 | `results/reference/` | All our predictions, metrics and logs, one folder per OS version and device, plus the Groq runs. |
+| `assets/` | The hero image and the script that builds it from the reference results. |
 
 ## Datasets
 
@@ -249,7 +252,7 @@ On the 162 messages added after tuning: Apple FM 95.7% on both Mac and iPhone (2
 | `es_adversarial` (65) | 89.2% | 95.0% | 20.0% | 0 |
 | `es_adversarial_v2` (227) | 93.8% | 95.9% | 8.7% | 0 |
 
-- Three runs gave identical predictions. No model errors. These runs were made before the harness recorded raw answers, so the iPhone check for answers that are neither `JUNK` nor `ALLOW` is still pending (the Mac and Groq runs have it, with 0 such answers).
+- Four runs gave identical predictions. No model errors. Run 4 also checked the raw answers: every one was `JUNK` or `ALLOW`.
 - 12 of the 337 unique messages get a different verdict than on the Mac with the same OS version (7 of them legitimate). In July (26.5), the iPhone gave the same confusion matrices as the Mac on `es_curated` and `es_adversarial`. So on 27 you need to test on the device you ship to, not only on the Mac.
 - All iPhone false positives came from the model layer, so all of them become warnings, not silent blocks.
 
