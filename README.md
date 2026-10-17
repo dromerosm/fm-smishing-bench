@@ -1,6 +1,6 @@
 # fm-smishing-bench
 
-![Scam protection that never leaves the phone. Accuracy on 227 adversarial test messages: iPhone 15 Pro on-device 93.8%, Mac on-device 95.2%, gpt-oss-20b in the cloud 96.5%, gpt-oss-120b 96.9%; no pair differs significantly.](assets/hero.png)
+![Scam protection that never leaves the phone. Accuracy on 227 adversarial test messages: iPhone 15 Pro on-device (Core 3B) 93.8%, Mac on-device (Core Advanced 20B) 95.2%, gpt-oss-20b in the cloud 96.5%, gpt-oss-120b 96.9%; no pair differs significantly.](assets/hero.png)
 
 A small, reproducible benchmark for detecting SMS scams (smishing) with **Apple's on-device Foundation Models**, compared with open-weight models in the cloud (`gpt-oss` on Groq).
 
@@ -13,7 +13,7 @@ Current target: **macOS 27 / iOS 27**. Results from macOS 26.5 are kept, because
 Supported by the data in this repo:
 
 - **The on-device model's answers changed with the OS update.** Same code, same prompt, greedy sampling: macOS 26.5 and macOS 27.0.1 give different verdicts on 11 of the 227 messages in the adversarial set.
-- **On 27.0.1, Mac and iPhone disagree.** 12 of 337 unique messages get a different verdict on an iPhone 15 Pro than on a Mac with the same OS version. On 26.5 they gave identical confusion matrices on the sets we compared.
+- **On 27.0.1, Mac and iPhone run different models.** The SDK reports the variant through `SystemLanguageModel.variant`: our M4 Mac runs `coreAdvanced3` (AFM 3 Core Advanced, about 20B parameters, sparse, 8,192-token context) and our iPhone 15 Pro runs `core3` (AFM 3 Core, 3B, 4,096-token context). 12 of 337 unique messages get a different verdict. Even so, the small phone model is within the noise of the large one (93.8% vs 95.2% on the adversarial set, McNemar p = 0.51). On 26.5 there was one on-device model, and both devices gave identical confusion matrices.
 - **Each device is deterministic on its own.** Repeated runs gave identical predictions (Mac: 3 runs on 27.0.1; iPhone: 4 runs).
 - **No refusals or guardrail errors on 27.0.1** on these datasets, with either guardrail setting. On the Mac, the iPhone and Groq, every model answer was literally `JUNK` or `ALLOW`.
 - **The rule layer never made a mistake.** It decides 100 of the 337 messages without the model, with 0 errors on every device and OS version. Every error comes from the model.
@@ -90,8 +90,8 @@ Tested with:
 
 | | Version |
 |---|---|
-| Mac | Apple M4 (Mac16,12), macOS 27.0.1 (26A434) |
-| iPhone | iPhone 15 Pro, iOS 27.0.1 (24A446) |
+| Mac | Apple M4 (Mac16,12), 24 GB, macOS 27.0.1 (26A434). Model: `coreAdvanced3`, context 8,192 tokens |
+| iPhone | iPhone 15 Pro, 8 GB, iOS 27.0.1 (24A446). Model: `core3`, context 4,096 tokens |
 | Xcode | 27.0 (27A266a) |
 | July 2026 runs | Apple M4 Mac, macOS 26.5; iPhone 15 Pro, iOS 26.5 |
 
@@ -101,7 +101,7 @@ Tested with:
 ./run.sh
 ```
 
-This builds `build/bench` and runs the three Spanish datasets with the production config. Results go to `results/<dataset>_metrics.json` and `results/<dataset>_predictions.csv`. A report is printed with the confusion matrix, false positive rate, latency, which layer decided, model errors, answers that were neither `JUNK` nor `ALLOW`, and every misclassified message.
+This builds `build/bench` and runs the three Spanish datasets with the production config. The report header and the metrics JSON include the model variant the Mac runs. Results go to `results/<dataset>_metrics.json` and `results/<dataset>_predictions.csv`. A report is printed with the confusion matrix, false positive rate, latency, which layer decided, model errors, answers that were neither `JUNK` nor `ALLOW`, and every misclassified message.
 
 On the setup above, a fresh clone running `./run.sh` reproduces our reference predictions exactly.
 
@@ -143,7 +143,7 @@ xcrun devicectl device process launch --console --device <DEVICE_UDID> <your.bun
 
 The phone must be unlocked when you launch the app. With a free Apple ID you can have at most 3 development apps installed at the same time.
 
-The app runs the three Spanish sets with the production config. It prints one `PRED` line per message (dataset, id, verdict, layer, ms), so you can diff the output against the Mac or feed it to `python/stats.py`. It also reports:
+The app first prints which on-device model the device runs (`core3` or `coreAdvanced3`) and its context size. Launch it with the argument `info` to stop there. Otherwise it runs the three Spanish sets with the production config. It prints one `PRED` line per message (dataset, id, verdict, layer, ms), so you can diff the output against the Mac or feed it to `python/stats.py`. It also reports:
 
 - cold start: the first model call in a fresh process
 - model latency per message (p50, p95, max)
@@ -230,8 +230,8 @@ SMS ──► Phase 0: genuine one-time code?  ──yes──► ALLOW   (rule,
 | Model layer | Accuracy [95% CI] | False positive rate [95% CI] | False negative rate |
 |---|---|---|---|
 | Apple FM, Mac, macOS 26.5 (July) | 93.8% [89.9, 96.3] | 3.8% [1.5, 9.5] | 8.1% |
-| Apple FM, Mac, macOS 27.0.1 | 95.2% [91.5, 97.3] | 6.7% [3.3, 13.2] | 3.3% |
-| Apple FM, iPhone 15 Pro, iOS 27.0.1 | 93.8% [89.9, 96.3] | 8.7% [4.6, 15.6] | 4.1% |
+| Apple FM Core Advanced (20B), Mac, macOS 27.0.1 | 95.2% [91.5, 97.3] | 6.7% [3.3, 13.2] | 3.3% |
+| Apple FM Core (3B), iPhone 15 Pro, iOS 27.0.1 | 93.8% [89.9, 96.3] | 8.7% [4.6, 15.6] | 4.1% |
 | `openai/gpt-oss-20b` on Groq (Oct, 2 runs, identical) | 96.5% [93.2, 98.2] | 2.9% [1.0, 8.1] | 4.1% |
 | `openai/gpt-oss-120b` on Groq (Oct, 2 runs) | 96.5 to 96.9% | 3.8% [1.5, 9.5] | 2.4 to 3.3% |
 
@@ -247,7 +247,7 @@ The intervals overlap, and no pairwise McNemar test reaches p < 0.05:
 
 On the 162 messages added after tuning: Apple FM 95.7% on both Mac and iPhone (27.0.1) and 95.1% on 26.5; `gpt-oss-20b` 97.5%; `gpt-oss-120b` 98.1 to 98.8%.
 
-### October 2026: macOS 27.0.1 (Mac)
+### October 2026: macOS 27.0.1 (Mac, AFM 3 Core Advanced)
 
 | Dataset | Accuracy | Recall | False positive rate | Legit blocked silently |
 |---|---|---|---|---|
@@ -259,7 +259,7 @@ On the 162 messages added after tuning: Apple FM 95.7% on both Mac and iPhone (2
 - Model latency on the Mac: p50 about 300 ms, p95 about 345 ms per message.
 - On the 227-message set, 7 legitimate messages were flagged: three 2FA codes, three family Bizum requests and one store pickup notice. All seven become warnings, not silent blocks.
 
-### October 2026: iOS 27.0.1 (iPhone 15 Pro)
+### October 2026: iOS 27.0.1 (iPhone 15 Pro, AFM 3 Core)
 
 | Dataset | Accuracy | Recall | False positive rate | Legit blocked silently |
 |---|---|---|---|---|
@@ -268,7 +268,7 @@ On the 162 messages added after tuning: Apple FM 95.7% on both Mac and iPhone (2
 | `es_adversarial_v2` (227) | 93.8% | 95.9% | 8.7% | 0 |
 
 - Four runs gave identical predictions. No model errors. Run 4 also checked the raw answers: every one was `JUNK` or `ALLOW`.
-- 12 of the 337 unique messages get a different verdict than on the Mac with the same OS version (7 of them legitimate). In July (26.5), the iPhone gave the same confusion matrices as the Mac on `es_curated` and `es_adversarial`. So on 27 you need to test on the device you ship to, not only on the Mac.
+- The iPhone runs a different model than the Mac (`core3` vs `coreAdvanced3`), and 12 of the 337 unique messages get a different verdict (7 of them legitimate). The API only reports the variant; there is no public way to choose it, so we could not run `core3` on the Mac. In July (26.5), with a single on-device model, the iPhone gave the same confusion matrices as the Mac. On 27, test on the devices you ship to: different iPhones can get different models.
 - All iPhone false positives came from the model layer, so all of them become warnings, not silent blocks.
 
 **Resource use (app process).** Each run classifies 402 messages (the three sets, so the 65 adversarial messages run twice).
@@ -320,7 +320,18 @@ On the iPhone 15 Pro (iOS 26.5, app process), peak app memory was about 14 MB an
 
 The rule layer decided exactly the same messages in both versions and on both devices. Only the model's verdicts moved: on the 227-message set, 11 verdicts changed on the Mac between 26.5 and 27.0.1. The 27 model missed fewer scams (4 vs 10) and flagged more legitimate messages (7 vs 4), but with this sample size neither change is statistically significant.
 
-Results are deterministic for one OS version on one device, but not across versions, and on 27 not even between Mac and iPhone. If you ship this, treat every OS update as a new model and run your regression set again on the target device.
+Results are deterministic for one OS version on one device, but not across versions, and on 27 the model also depends on the device. If you ship this, treat every OS update as a new model and run your regression set again on the target devices.
+
+### What Apple says
+
+Apple's own statements after WWDC26 match what we measured:
+
+- **The 27 on-device model is new.** Apple describes it as "rebuilt from the ground up" ([What's new in the Foundation Models framework, WWDC26](https://developer.apple.com/videos/play/wwdc2026/241/)). The third generation has two on-device models: AFM 3 Core (3B, dense) and AFM 3 Core Advanced (about 20B, sparse, 1 to 4B active per request, weights in flash), the latter "unlocked by and optimized for our most capable Apple silicon systems" ([Apple Machine Learning Research](https://machinelearning.apple.com/research/introducing-third-generation-of-apple-foundation-models)). Apple does not publish which devices get which model, so read `SystemLanguageModel.variant` at runtime.
+- **The on-device model changes only with the OS.** "The on device model really only updates as part of an OS update", typically about twice a year, and "when a new OS update comes out... rerun your evaluation... It should be part of your test suite" ([Machine Learning & AI Group Lab, WWDC26](https://developer.apple.com/videos/play/wwdc2026/8016/)).
+- **Guardrails were tuned.** Apple says it adjusted guardrails "in iOS 26.4 to reduce the number of false positives" and continued in iOS 27 (WWDC26 session above). That fits the guardrail errors we saw on 26.5 and their absence on 27.0.1.
+- **Permissive guardrails can still refuse in text.** Apple's documentation for `permissiveContentTransformations` says `String` requests won't throw guardrail errors, but the model "may still sometimes refuse to respond to a sensitive prompt". That is why the harness records raw answers.
+
+For scam protection beyond message text, iOS 27 also adds [Trust Insights](https://developer.apple.com/videos/play/wwdc2026/379/), which estimates on-device whether a user is being coached by a scammer before a payment or account change. It does not read Messages content, so it complements a text classifier like this one rather than replacing it.
 
 ### What we tried that did not help (macOS 26.5)
 
@@ -338,7 +349,7 @@ These variants were measured during development in July. They are not toggles in
 - **Some scams leave no trace in the text.** Romance, pig-butchering, "call us back" and "an agent will review your case" have no URL and no code. A text classifier can't catch them reliably. They need other layers, such as DNS filtering, number reputation and user education.
 - **The prompt is tuned for Spain.** The English UCI set does worse, as expected.
 - **Not tested inside a real `ILMessageFilterExtension`.** The iPhone numbers come from the app process.
-- **One device per platform.** The 27.0.1 numbers come from one Mac and one iPhone 15 Pro.
+- **One device per platform.** The 27.0.1 numbers come from one Mac (`coreAdvanced3`) and one iPhone 15 Pro (`core3`). Other devices may get a different variant.
 - **Groq is not fully deterministic.** With `temperature 0`, `gpt-oss-120b` changed 1 verdict between two runs; `gpt-oss-20b` changed none.
 
 ## License

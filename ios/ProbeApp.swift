@@ -89,6 +89,9 @@ final class Runner: ObservableObject {
     func runAll() async {
         log("=== FMSmishingProbe — \(UIDevice.current.model) iOS \(UIDevice.current.systemVersion) ===")
         guard case .available = model.availability else { log("Foundation Models not available ❌"); return }
+        let v = model.variant
+        log("MODEL: variant=\(v == .coreAdvanced3 ? "coreAdvanced3" : (v == .core3 ? "core3" : "other")) contextSize=\(model.contextSize)")
+        if CommandLine.arguments.contains("info") { log("=== DONE (info) ==="); return }
         UIDevice.current.isBatteryMonitoringEnabled = true
         let bat0 = UIDevice.current.batteryLevel
         log(String(format: "START: phys_footprint=%.1f MB | thermal=%@ | battery=%.0f%% | lowPower=%@",

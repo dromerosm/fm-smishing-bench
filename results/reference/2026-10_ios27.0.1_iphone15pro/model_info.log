@@ -1,0 +1,6 @@
+=== FMSmishingProbe — iPhone iOS 27.0.1 ===
+MODEL: variant=core3 contextSize=4096
+=== DONE (info) ===
+Launched application with com.example.fmsmishingprobe bundle identifier.
+Waiting for the application to terminate...
+App terminated due to signal 15.

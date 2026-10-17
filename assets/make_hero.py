@@ -30,16 +30,16 @@ def wilson(k, n, z=1.96):
     return p, c - h, c + h
 
 
-runs = [  # (label, kind, predictions)
-    ("iPhone 15 Pro", "On-device", from_log(f"{R}/2026-10_ios27.0.1_iphone15pro/run1_console.log")),
-    ("Mac (M4)", "On-device", from_csv(f"{R}/2026-10_macos27.0.1/es_adversarial_v2_predictions.csv")),
-    ("gpt-oss-20b", "Cloud", from_csv(f"{R}/2026-10_groq/adv_v2_g20_run2_predictions.csv")),
-    ("gpt-oss-120b", "Cloud", from_csv(f"{R}/2026-10_groq/adv_v2_g120_run2_predictions.csv")),
+runs = [  # (label, kind, sub-label, predictions)
+    ("iPhone 15 Pro", "On-device", "on-device · Core 3B", from_log(f"{R}/2026-10_ios27.0.1_iphone15pro/run1_console.log")),
+    ("Mac (M4)", "On-device", "on-device · Core Advanced 20B", from_csv(f"{R}/2026-10_macos27.0.1/es_adversarial_v2_predictions.csv")),
+    ("gpt-oss-20b", "Cloud", "cloud · Groq", from_csv(f"{R}/2026-10_groq/adv_v2_g20_run2_predictions.csv")),
+    ("gpt-oss-120b", "Cloud", "cloud · Groq", from_csv(f"{R}/2026-10_groq/adv_v2_g120_run2_predictions.csv")),
 ]
 rows = []
-for name, kind, p in runs:
+for name, kind, sub, p in runs:
     k = sum((p[i] == "JUNK") == (labels[i] == "scam") for i in labels)
-    rows.append((name, kind, *wilson(k, len(labels))))
+    rows.append((name, kind, sub, *wilson(k, len(labels))))
 
 W, H = 1200, 630
 px0, px1, lo, hi = 820, 1100, 0.85, 1.00          # plot x-range and value domain
@@ -51,10 +51,10 @@ svg = []
 for t in (0.85, 0.90, 0.95, 1.00):
     svg.append(f'<line x1="{X(t):.1f}" y1="{top-22}" x2="{X(t):.1f}" y2="{top+gap*3+20}" stroke="var(--grid)" stroke-width="1"/>')
     svg.append(f'<text x="{X(t):.1f}" y="{top+gap*3+40}" fill="var(--muted)" font-size="13" text-anchor="middle">{int(t*100)}%</text>')
-for r, (name, kind, p, a, b) in enumerate(rows):
+for r, (name, kind, sub, p, a, b) in enumerate(rows):
     y = top + r * gap
     svg.append(f'<text x="{px0-18}" y="{y-1}" fill="var(--text)" font-size="16" font-weight="600" text-anchor="end">{name}</text>')
-    svg.append(f'<text x="{px0-18}" y="{y+16}" fill="var(--muted)" font-size="13" text-anchor="end">{kind.lower()}{" · Groq" if kind == "Cloud" else ""}</text>')
+    svg.append(f'<text x="{px0-18}" y="{y+16}" fill="var(--muted)" font-size="13" text-anchor="end">{sub}</text>')
     svg.append(f'<line x1="{X(a):.1f}" y1="{y}" x2="{X(b):.1f}" y2="{y}" stroke="{color[kind]}" stroke-width="2" stroke-linecap="round"/>')
     svg.append(f'<circle cx="{X(p):.1f}" cy="{y}" r="6.5" fill="{color[kind]}" stroke="var(--surface)" stroke-width="2"/>')
     svg.append(f'<text x="{X(b)+10:.1f}" y="{y+5}" fill="var(--text)" font-size="15" font-weight="600">{p*100:.1f}%</text>')
@@ -101,4 +101,4 @@ svg {{ position:absolute; left:0; top:0; font-family:inherit; }}
 </body></html>"""
 open(out, "w", encoding="utf-8").write(html)
 for r in rows:
-    print(f"{r[0]:14} {r[2]*100:.1f}% [{r[3]*100:.1f}, {r[4]*100:.1f}]")
+    print(f"{r[0]:14} {r[3]*100:.1f}% [{r[4]*100:.1f}, {r[5]*100:.1f}]")

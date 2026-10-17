@@ -51,7 +51,8 @@ guard case .available = model.availability else {
     FileHandle.standardError.write("Foundation Models is not available here (needs Apple Silicon + Apple Intelligence on).\n".data(using: .utf8)!); exit(1)
 }
 
-print("Dataset: \(datasetPath)  (\(samples.count) messages)  PHASE=\(phase) GUARDRAILS=\(guardrailMode) SAMPLING=\(samplingMode)\n")
+let variant = model.variant == .coreAdvanced3 ? "coreAdvanced3" : (model.variant == .core3 ? "core3" : "other")
+print("Dataset: \(datasetPath)  (\(samples.count) messages)  PHASE=\(phase) GUARDRAILS=\(guardrailMode) SAMPLING=\(samplingMode)  model=\(variant)\n")
 
 // --- run ---
 struct Row { let s: Sample; let pred: String; let ok: Bool; let ms: Double; let errored: Bool; let source: String; let raw: String; let unparsed: Bool }
@@ -167,7 +168,7 @@ try csv.write(toFile: "\(prefix)_predictions.csv", atomically: true, encoding: .
 // --- write metrics JSON ---
 let metrics: [String: Any] = [
     "dataset": datasetPath, "n": samples.count,
-    "phase": phase, "guardrails": guardrailMode, "sampling": samplingMode,
+    "phase": phase, "guardrails": guardrailMode, "sampling": samplingMode, "model_variant": variant,
     "TP": TP, "FP": FP, "TN": TN, "FN": FN,
     "accuracy": acc, "precision": precision, "recall": recall, "f1": f1,
     "false_positive_rate": fpr, "false_negative_rate": fnr,
