@@ -1,6 +1,6 @@
 # fm-smishing-bench
 
-![Scam protection that never leaves the phone. Accuracy on the 227 hardest test messages: iPhone 15 Pro on-device 93.8%, Mac on-device 95.2%, gpt-oss-20b in the cloud 96.5%, gpt-oss-120b 96.9%; no pair differs significantly.](assets/hero.png)
+![Scam protection that never leaves the phone. Accuracy on 227 adversarial test messages: iPhone 15 Pro on-device 93.8%, Mac on-device 95.2%, gpt-oss-20b in the cloud 96.5%, gpt-oss-120b 96.9%; no pair differs significantly.](assets/hero.png)
 
 A small, reproducible benchmark for detecting SMS scams (smishing) with **Apple's on-device Foundation Models**, compared with open-weight models in the cloud (`gpt-oss` on Groq).
 
@@ -12,7 +12,7 @@ Current target: **macOS 27 / iOS 27**. Results from macOS 26.5 are kept, because
 
 Supported by the data in this repo:
 
-- **The on-device model's answers changed with the OS update.** Same code, same prompt, greedy sampling: macOS 26.5 and macOS 27.0.1 give different verdicts on 11 of the 227 hardest messages.
+- **The on-device model's answers changed with the OS update.** Same code, same prompt, greedy sampling: macOS 26.5 and macOS 27.0.1 give different verdicts on 11 of the 227 messages in the adversarial set.
 - **On 27.0.1, Mac and iPhone disagree.** 12 of 337 unique messages get a different verdict on an iPhone 15 Pro than on a Mac with the same OS version. On 26.5 they gave identical confusion matrices on the sets we compared.
 - **Each device is deterministic on its own.** Repeated runs gave identical predictions (Mac: 3 runs on 27.0.1; iPhone: 4 runs).
 - **No refusals or guardrail errors on 27.0.1** on these datasets, with either guardrail setting. On the Mac, the iPhone and Groq, every model answer was literally `JUNK` or `ALLOW`.
@@ -40,6 +40,7 @@ Not supported, so we don't claim it:
 | `ios/` | iPhone/iPad app that runs the same pipeline and measures resources. |
 | `python/groq_bench.py` | Same pipeline, but the model layer calls Groq. See [Cloud comparison](#cloud-comparison-groq). |
 | `python/stats.py` | Confidence intervals and paired significance tests for any set of runs. |
+| `python/difficulty.py` | Checks whether the adversarial set is actually harder (table in [Datasets](#datasets)). |
 | `results/reference/` | All our predictions, metrics and logs, one folder per OS version and device, plus the Groq runs. |
 | `assets/` | The hero image and the script that builds it from the reference results. |
 
@@ -63,6 +64,20 @@ Each JSONL line looks like this:
 **Brands, domains and phone numbers.** The scam messages imitate real Spanish brands, because real scams do. The domains (77) and phone numbers (about 20) in the texts were made up for the examples. Some of them may exist or belong to someone. Don't visit or call them.
 
 **Tuning and leakage.** Prompt v3 and the rules were written while looking at `es_curated` and `es_adversarial`, so those two sets are not a clean test. The 162 messages added in `es_adversarial_v2` were written afterwards (one day after prompt v3 was frozen, according to our project notes) and were not used to change the prompt or the rules. On those 162 messages alone, Apple FM scores slightly **higher** than on the full set (see [Results](#results)), so we see no sign of overfitting. You can check any run on just that subset with `python/stats.py --ids data/es_adversarial_v2_added_ids.txt`.
+
+**Is the adversarial set actually harder?** We call `es_adversarial_v2` "adversarial" because of how it was built (to fool the filter), not because we assume it is hard. The results show it is harder than `es_curated` for every on-device run:
+
+| Run | Errors on `es_curated` (110) | Errors on `es_adversarial_v2` (227) | p (one-sided Fisher) |
+|---|---|---|---|
+| Apple FM, Mac, macOS 26.5 | 0 (0.0%) | 14 (6.2%) | 0.003 |
+| Apple FM, Mac, macOS 27.0.1 | 1 (0.9%) | 11 (4.8%) | 0.056 |
+| Apple FM, iPhone, iOS 27.0.1 | 2 (1.8%) | 14 (6.2%) | 0.062 |
+
+- The error rate is 3 to 7 times higher on the adversarial set. The gap is significant on 26.5 and borderline (p about 0.06) on 27.0.1.
+- The per-message `difficulty` label tracks real difficulty: 0% errors on `easy` messages (40), 6.1% on `frontier` (141) and 3.4% on `hard` (156), pooled over the three runs. So `hard` turned out easier than `frontier`.
+- The rules can decide fewer of these messages: 74% of the adversarial set reaches the model, against 64% of `es_curated`.
+
+This shows the set is harder than our easy set. It does not show it is harder than real-world traffic or other benchmarks, and we wrote both sets ourselves. Run `python3 python/difficulty.py` to reproduce the table.
 
 ## Requirements
 

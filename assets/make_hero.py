@@ -94,7 +94,7 @@ svg {{ position:absolute; left:0; top:0; font-family:inherit; }}
   <h1>Scam protection<br>that never leaves<br><span>the phone.</span></h1>
   <div class="sub">An SMS scam filter for older people in Spain. The AI runs on the iPhone they already carry, so their messages stay with them.</div>
 </div>
-<div class="ct"><b>Accuracy on the 227 hardest test messages</b><span>95% confidence intervals · iOS / macOS 27.0.1 · October 2026</span></div>
+<div class="ct"><b>Accuracy on 227 adversarial test messages</b><span>Written to fool the filter · 95% confidence intervals · iOS / macOS 27.0.1</span></div>
 <svg width="{W}" height="{H}" viewBox="0 0 {W} {H}">{''.join(svg)}</svg>
 <div class="legend"><span><i style="background:var(--dev)"></i>On-device</span><span><i style="background:var(--cloud)"></i>Cloud</span><em>No significant gap (paired McNemar, all p&nbsp;&gt;&nbsp;0.1)</em></div>
 <div class="stats">{stat_html}</div>
