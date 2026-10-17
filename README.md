@@ -331,7 +331,19 @@ Apple's own statements after WWDC26 match what we measured:
 - **Guardrails were tuned.** Apple says it adjusted guardrails "in iOS 26.4 to reduce the number of false positives" and continued in iOS 27 (WWDC26 session above). That fits the guardrail errors we saw on 26.5 and their absence on 27.0.1.
 - **Permissive guardrails can still refuse in text.** Apple's documentation for `permissiveContentTransformations` says `String` requests won't throw guardrail errors, but the model "may still sometimes refuse to respond to a sensitive prompt". That is why the harness records raw answers.
 
-For scam protection beyond message text, iOS 27 also adds [Trust Insights](https://developer.apple.com/videos/play/wwdc2026/379/), which estimates on-device whether a user is being coached by a scammer before a payment or account change. It does not read Messages content, so it complements a text classifier like this one rather than replacing it.
+### Same direction as Apple's Trust Insights
+
+iOS 27 adds [Trust Insights](https://developer.apple.com/videos/play/wwdc2026/379/), a framework that estimates whether a user is "likely being coached" by a scammer before a sensitive action such as a payment or an account change ([Apple Support](https://support.apple.com/en-us/127906)). It targets the same scams as this filter: bank and authority impersonation, family emergencies (including AI deepfakes) and fake tech support. The design choices line up:
+
+| | This filter | Trust Insights |
+|---|---|---|
+| What it looks at | The text of the SMS | Device and account signals (interaction patterns, timing, context, basic sensor data). "Never content within Photos, Messages, or Mail" |
+| Where the data goes | Message text stays on the phone | Device signals are processed locally; only a risk level leaves the device. The framework also uses Apple's servers |
+| Output | Allow / warn / block, by which layer decided | Risk level: unknown, medium, high |
+| Uncertain cases | The model can only warn; it never blocks silently | "Outright blocking based solely on a trust insight is not recommended"; add friction or verification instead |
+| Absence of a signal | The filter fails open, and a missed scam is a known limit | "Never treat unknown or a missing value as low risk" |
+
+The two work at different moments and don't overlap: this filter reads the message when it arrives, and Trust Insights checks the moment the scammer is trying to cause, such as the transfer. An app for older people could use both. Trust Insights needs iOS 27, an entitlement and an internet connection, and we have not tested it.
 
 ### What we tried that did not help (macOS 26.5)
 
