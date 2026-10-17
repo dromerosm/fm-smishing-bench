@@ -19,7 +19,7 @@ Current target: **macOS 27 / iOS 27**. Results from macOS 26.5 are kept for comp
 | `swift/main.swift` | Mac CLI: runs a dataset, prints a report, writes CSV and JSON. |
 | `ios/` | iPhone/iPad app that runs the same pipeline and measures resources. |
 | `python/groq_bench.py` | Same pipeline, but the model layer calls Groq instead of Foundation Models. See [Cloud comparison](#cloud-comparison-groq). |
-| `results/reference/` | Our predictions and metrics, one folder per OS version. |
+| `results/reference/` | Our predictions, metrics and logs, one folder per OS version and device, plus the Groq runs. |
 
 Each JSONL line looks like this:
 
@@ -212,17 +212,21 @@ On the iPhone 15 Pro (iOS 26.5, app process), peak memory was about 14 MB and a 
 
 The rule layer decided exactly the same messages in both versions and on both devices. Only the model's verdicts moved. On the 227-message set the 27 model catches more scams (10 missed before, 4 now) but flags more legitimate messages (4 before, 7 now), including more 2FA codes. Results are deterministic within one OS version on one device, but not across versions, and on 27 not even between Mac and iPhone. If you ship this, treat every OS update as a new model and run your regression set again on the target device.
 
-### Cloud comparison (July 2026, `es_adversarial_v2`)
+### Cloud comparison (October 2026, `es_adversarial_v2`)
 
-Same pipeline, only the model changes. The Apple row is macOS 26.5.
+Same pipeline and same rule layer; only the model changes. 167 of the 227 messages reach the model.
 
 | Model layer | Accuracy | F1 | False positive rate | False negative rate |
 |---|---|---|---|---|
-| Apple Foundation Models (on-device, 26.5) | 93.8% | 0.942 | 3.8% | 8.1% |
+| Apple Foundation Models, iPhone 15 Pro (iOS 27.0.1) | 93.8% | 0.944 | 8.7% | 4.1% |
+| Apple Foundation Models, Mac (macOS 27.0.1) | 95.2% | 0.956 | 6.7% | 3.3% |
 | `openai/gpt-oss-20b` on Groq | 96.5% | 0.967 | 2.9% | 4.1% |
 | `openai/gpt-oss-120b` on Groq | 96.5% | 0.967 | 3.8% | 3.3% |
 
-For reference, Apple FM on macOS 27.0.1 scores 95.2% accuracy, 0.956 F1, 6.7% false positive rate and 3.3% false negative rate on the same set.
+- The Groq numbers are the same as in July (same metrics), but 2 to 4 messages changed verdict between the two runs. `temperature 0` on a hosted API is close to deterministic, not fully.
+- The models catch about the same share of scams. The difference is in false positives: on iOS 27 the on-device model flags 9 legitimate messages, `gpt-oss-20b` flags 3. Two of them are family Bizum requests that even a person could doubt; both Groq models flag those.
+- In July, on 26.5, Apple FM had a 3.8% false positive rate, the same as `gpt-oss-120b`. The gap opened with the 27 model.
+- The trade-off is not only accuracy. On-device means no server, no cost, it works offline, and message text never leaves the phone. A cloud model needs consent, a privacy label that declares the data, GDPR handling of other people's messages, and a running endpoint.
 
 ### What we tried that did not help (macOS 26.5)
 
