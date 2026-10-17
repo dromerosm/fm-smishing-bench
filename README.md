@@ -1,6 +1,6 @@
 # fm-smishing-bench
 
-![Same code. New OS. Different answers. 337 test messages, 12 get a different verdict on iPhone than on Mac.](assets/hero.png)
+![Scam protection that never leaves the phone. Accuracy on the 227 hardest test messages: iPhone 15 Pro on-device 93.8%, Mac on-device 95.2%, gpt-oss-20b in the cloud 96.5%, gpt-oss-120b 96.9%; no pair differs significantly.](assets/hero.png)
 
 A small, reproducible benchmark for detecting SMS scams (smishing) with **Apple's on-device Foundation Models**, compared with open-weight models in the cloud (`gpt-oss` on Groq).
 
