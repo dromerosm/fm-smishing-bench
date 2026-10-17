@@ -58,7 +58,7 @@ final class Runner: ObservableObject {
         let data = loadDataset(name)
         guard !data.isEmpty else { log("(\(name) not found in bundle)"); return }
         log("=== \(name) (n=\(data.count)) ===")
-        var TP = 0, FP = 0, TN = 0, FN = 0, errors = 0
+        var TP = 0, FP = 0, TN = 0, FN = 0, errors = 0, unparsed = 0
         var lat: [Double] = []; var peak = 0.0
         let cpu0 = cpuSeconds(), wall0 = Date()
         for s in data {
@@ -67,6 +67,7 @@ final class Runner: ObservableObject {
             let ms = Date().timeIntervalSince(t0) * 1000
             if o.source == "model" { lat.append(ms) }
             if o.error != nil { errors += 1 }
+            if o.unparsed { unparsed += 1; print("UNPARSED\t\(name)\t\(s.id)\t\(o.raw ?? "")") }
             peak = max(peak, physFootprintMB())
             print("PRED\t\(name)\t\(s.id)\t\(o.pred)\t\(o.source)\t\(Int(ms))")
             let predScam = o.pred == "JUNK", isScam = s.label == "scam"
@@ -76,8 +77,8 @@ final class Runner: ObservableObject {
         let acc = Double(TP + TN) / Double(data.count)
         let recall = TP + FN > 0 ? Double(TP) / Double(TP + FN) : 0
         let fpr = FP + TN > 0 ? Double(FP) / Double(FP + TN) : 0
-        log(String(format: "acc=%.1f%% recall=%.1f%% FPR=%.1f%% (TP=%d FN=%d FP=%d TN=%d) errors=%d",
-                   acc * 100, recall * 100, fpr * 100, TP, FN, FP, TN, errors))
+        log(String(format: "acc=%.1f%% recall=%.1f%% FPR=%.1f%% (TP=%d FN=%d FP=%d TN=%d) errors=%d unparsed=%d",
+                   acc * 100, recall * 100, fpr * 100, TP, FN, FP, TN, errors, unparsed))
         let wall = Date().timeIntervalSince(wall0), cpu = cpuSeconds() - cpu0
         log(String(format: "model latency p50=%.0f ms p95=%.0f ms max=%.0f ms (n=%d model calls)",
                    pctl(lat, 0.5), pctl(lat, 0.95), lat.max() ?? 0, lat.count))

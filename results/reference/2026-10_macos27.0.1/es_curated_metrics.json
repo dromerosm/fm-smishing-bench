@@ -10,9 +10,9 @@
   "guardrails" : "permissive",
   "harmful_blocks" : 0,
   "inference_errors" : 0,
-  "latency_cold_ms" : 5.1839351654052734,
-  "latency_p50_ms" : 282.45007991790771,
-  "latency_p95_ms" : 343.41299533843994,
+  "latency_cold_ms" : 4.7869682312011719,
+  "latency_p50_ms" : 289.40999507904053,
+  "latency_p95_ms" : 355.51595687866211,
   "n" : 110,
   "phase" : 1,
   "precision" : 0.9821428571428571,
@@ -21,5 +21,6 @@
   "sampling" : "greedy",
   "scams_passed_silently" : 0,
   "TN" : 54,
-  "TP" : 55
+  "TP" : 55,
+  "unparsed_answers" : 0
 }

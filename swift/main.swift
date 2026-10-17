@@ -54,9 +54,9 @@ guard case .available = model.availability else {
 print("Dataset: \(datasetPath)  (\(samples.count) messages)  PHASE=\(phase) GUARDRAILS=\(guardrailMode) SAMPLING=\(samplingMode)\n")
 
 // --- run ---
-struct Row { let s: Sample; let pred: String; let ok: Bool; let ms: Double; let errored: Bool }
+struct Row { let s: Sample; let pred: String; let ok: Bool; let ms: Double; let errored: Bool; let source: String; let raw: String; let unparsed: Bool }
 var rows: [Row] = []
-var TP = 0, FP = 0, TN = 0, FN = 0, ruleFired = 0, detStrong = 0, modelCalls = 0, guardrailErrors = 0, refusals = 0
+var TP = 0, FP = 0, TN = 0, FN = 0, ruleFired = 0, detStrong = 0, modelCalls = 0, guardrailErrors = 0, refusals = 0, unparsedCount = 0
 var latencies: [Double] = []
 // Two-level action by provenance: (block/warn/allow) x (scam/legit)
 var sBlock = 0, sWarn = 0, sMiss = 0, lBlock = 0, lWarn = 0, lAllow = 0
@@ -66,6 +66,7 @@ for (i, s) in samples.enumerated() {
     let o = await classify(s.text, model: model, options: genOpts, phase: phase)
     let pred = o.pred, source = o.source, medium = o.medium
     let errored = o.error != nil
+    if o.unparsed { unparsedCount += 1 }
     switch source { case "otp": ruleFired += 1; case "strong": detStrong += 1; default: modelCalls += 1 }
     if let e = o.error {
         switch e as? LanguageModelError {          // macOS/iOS 27 error type
@@ -97,7 +98,7 @@ for (i, s) in samples.enumerated() {
         if action == "block" { lBlock += 1 } else if action == "warn" { lWarn += 1 } else { lAllow += 1 }
     }
 
-    rows.append(Row(s: s, pred: pred, ok: ok, ms: ms, errored: errored))
+    rows.append(Row(s: s, pred: pred, ok: ok, ms: ms, errored: errored, source: source, raw: o.raw ?? "", unparsed: o.unparsed))
     if (i+1) % 20 == 0 { print("  …\(i+1)/\(samples.count)") }
 }
 
@@ -131,6 +132,7 @@ F1 ........................ \(String(format: "%.3f", f1))
 Latency: first=\(String(format:"%.0f",latencies.first ?? 0))ms  p50=\(String(format:"%.0f",percentile(latencies,0.5)))ms  p95=\(String(format:"%.0f",percentile(latencies,0.95)))ms
 Decided by: OTP rule=\(ruleFired)  ·  strong signal=\(detStrong)  ·  model=\(modelCalls)
 Inference errors: \(errs)  (guardrailViolation: \(guardrailErrors), refusal: \(refusals))
+Answers that were neither JUNK nor ALLOW (e.g. a text refusal): \(unparsedCount)
 
 Two-level action by provenance (block = silent · warn = alert user · allow):
   scams: BLOCK=\(sBlock)  WARN=\(sWarn)  PASSED_SILENTLY=\(sMiss)  → protected (block+warn)=\(pct(Double(sBlock+sWarn)/Double(max(1,sBlock+sWarn+sMiss))))
@@ -145,6 +147,8 @@ func breakdown(by key: (Sample)->String) -> [String:(Int,Int)] {
 print("\nAccuracy by difficulty:")
 for (k,v) in breakdown(by: {$0.difficulty}).sorted(by: {$0.key<$1.key}) { print("  \(k): \(v.1)/\(v.0) (\(pct(Double(v.1)/Double(v.0))))") }
 
+for r in rows where r.unparsed { print("  [UNPARSED ANSWER] \(r.s.id): \(r.raw.prefix(80))") }
+
 print("\nERRORS:")
 for r in rows where !r.ok {
     let kind = r.s.label == "legit" ? "FALSE POSITIVE" : "false negative"
@@ -152,10 +156,11 @@ for r in rows where !r.ok {
 }
 
 // --- write CSV ---
-var csv = "id,lang,label,category,difficulty,pred,correct,ms,errored,text\n"
+var csv = "id,lang,label,category,difficulty,pred,source,correct,ms,errored,unparsed,raw,text\n"
 for r in rows {
     let t = r.s.text.replacingOccurrences(of: "\"", with: "'")
-    csv += "\(r.s.id),\(r.s.lang),\(r.s.label),\(r.s.category),\(r.s.difficulty),\(r.pred),\(r.ok),\(String(format:"%.0f",r.ms)),\(r.errored),\"\(t)\"\n"
+    let raw = r.raw.replacingOccurrences(of: "\"", with: "'").replacingOccurrences(of: "\n", with: " ")
+    csv += "\(r.s.id),\(r.s.lang),\(r.s.label),\(r.s.category),\(r.s.difficulty),\(r.pred),\(r.source),\(r.ok),\(String(format:"%.0f",r.ms)),\(r.errored),\(r.unparsed),\"\(raw)\",\"\(t)\"\n"
 }
 try csv.write(toFile: "\(prefix)_predictions.csv", atomically: true, encoding: .utf8)
 
@@ -168,7 +173,7 @@ let metrics: [String: Any] = [
     "false_positive_rate": fpr, "false_negative_rate": fnr,
     "latency_cold_ms": latencies.first ?? 0,
     "latency_p50_ms": percentile(latencies,0.5), "latency_p95_ms": percentile(latencies,0.95),
-    "inference_errors": errs, "guardrail_violations": guardrailErrors, "refusals": refusals,
+    "inference_errors": errs, "guardrail_violations": guardrailErrors, "refusals": refusals, "unparsed_answers": unparsedCount,
     "harmful_blocks": lBlock, "scams_passed_silently": sMiss
 ]
 let jd = try JSONSerialization.data(withJSONObject: metrics, options: [.prettyPrinted, .sortedKeys])

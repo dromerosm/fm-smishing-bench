@@ -1,0 +1,19 @@
+{
+  "dataset": "data/es_adversarial_v2.jsonl",
+  "model": "openai/gpt-oss-120b",
+  "n": 227,
+  "TP": 120,
+  "FP": 4,
+  "TN": 100,
+  "FN": 3,
+  "accuracy": 0.9691629955947136,
+  "precision": 0.967741935483871,
+  "recall": 0.975609756097561,
+  "f1": 0.97165991902834,
+  "false_positive_rate": 0.038461538461538464,
+  "false_negative_rate": 0.024390243902439025,
+  "inference_errors": 0,
+  "unparsed_answers": 0,
+  "tokens_prompt": 96431,
+  "tokens_completion": 5110
+}

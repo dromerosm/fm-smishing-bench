@@ -82,6 +82,10 @@ struct Outcome {
     let source: String        // "otp", "strong" or "model"
     let medium: [String]      // medium signals (used for the two-level action)
     let error: Error?         // model error; the pipeline then fails open (ALLOW)
+    var raw: String? = nil    // the model's raw answer
+    /// The model answered, but with neither JUNK nor ALLOW (for example a refusal message,
+    /// which permissive guardrails return as text instead of throwing). Treated as ALLOW.
+    var unparsed: Bool = false
 }
 
 /// One NEW session per message, no shared history (like an SMS filter extension).
@@ -93,8 +97,11 @@ func classify(_ text: String, model: SystemLanguageModel, options: GenerationOpt
     let session = LanguageModelSession(model: model, instructions: instructions)
     do {
         let out = try await session.respond(to: "MENSAJE: \"\(text)\"\(aug)", options: options)
-        let junk = out.content.trimmingCharacters(in: .whitespacesAndNewlines).uppercased().contains("JUNK")
-        return Outcome(pred: junk ? "JUNK" : "ALLOW", source: "model", medium: sig.medium, error: nil)
+        let raw = out.content.trimmingCharacters(in: .whitespacesAndNewlines)
+        let upper = raw.uppercased()
+        let junk = upper.contains("JUNK")
+        return Outcome(pred: junk ? "JUNK" : "ALLOW", source: "model", medium: sig.medium, error: nil,
+                       raw: raw, unparsed: !junk && !upper.contains("ALLOW"))
     } catch {
         return Outcome(pred: "ALLOW", source: "model", medium: sig.medium, error: error)   // fail open
     }

@@ -1,0 +1,135 @@
+== Building ==
+== es_curated ==
+Dataset: data/es_curated.jsonl  (110 messages)  PHASE=1 GUARDRAILS=permissive SAMPLING=greedy
+
+  …20/110
+  …40/110
+  …60/110
+  …80/110
+  …100/110
+
+================ RESULTS: results/es_curated ================
+Confusion matrix (positive = scam):
+                 pred JUNK   pred ALLOW
+  real scam        TP=55        FN=0
+  real legit       FP=1        TN=54
+
+Accuracy .................. 99.1%
+Precision (scam) .......... 98.2%
+Recall (scams caught) ..... 100.0%
+F1 ........................ 0.991
+>>> FALSE POSITIVES (legit blocked) = 1.8%  [KEY METRIC]
+>>> False negatives (scam passed) .. = 0.0%
+
+Latency: first=5ms  p50=289ms  p95=356ms
+Decided by: OTP rule=6  ·  strong signal=34  ·  model=70
+Inference errors: 0  (guardrailViolation: 0, refusal: 0)
+Answers that were neither JUNK nor ALLOW (e.g. a text refusal): 0
+
+Two-level action by provenance (block = silent · warn = alert user · allow):
+  scams: BLOCK=34  WARN=21  PASSED_SILENTLY=0  → protected (block+warn)=100.0%
+  legit: BLOCKED_SILENTLY(harm)=0  WARN=1  ALLOW=54  → harmful blocks=0.0%
+
+Accuracy by difficulty:
+  easy: 40/40 (100.0%)
+  hard: 69/70 (98.6%)
+
+ERRORS:
+  [FALSE POSITIVE] es-l-013 (paqueteria-info): Correos: tu envio esta disponible para recoger en tu oficina hasta el 
+
+✓ Wrote results/es_curated_predictions.csv and results/es_curated_metrics.json
+== es_adversarial ==
+Dataset: data/es_adversarial.jsonl  (65 messages)  PHASE=1 GUARDRAILS=permissive SAMPLING=greedy
+
+  …20/65
+  …40/65
+  …60/65
+
+================ RESULTS: results/es_adversarial ================
+Confusion matrix (positive = scam):
+                 pred JUNK   pred ALLOW
+  real scam        TP=39        FN=1
+  real legit       FP=3        TN=22
+
+Accuracy .................. 93.8%
+Precision (scam) .......... 92.9%
+Recall (scams caught) ..... 97.5%
+F1 ........................ 0.951
+>>> FALSE POSITIVES (legit blocked) = 12.0%  [KEY METRIC]
+>>> False negatives (scam passed) .. = 2.5%
+
+Latency: first=4ms  p50=289ms  p95=356ms
+Decided by: OTP rule=2  ·  strong signal=19  ·  model=44
+Inference errors: 0  (guardrailViolation: 0, refusal: 0)
+Answers that were neither JUNK nor ALLOW (e.g. a text refusal): 0
+
+Two-level action by provenance (block = silent · warn = alert user · allow):
+  scams: BLOCK=19  WARN=20  PASSED_SILENTLY=1  → protected (block+warn)=97.5%
+  legit: BLOCKED_SILENTLY(harm)=0  WARN=3  ALLOW=22  → harmful blocks=0.0%
+
+Accuracy by difficulty:
+  frontier: 61/65 (93.8%)
+
+ERRORS:
+  [false negative] adv-s-028 (banco): Gracias por contactar con el servicio de atencion de BBVA. Un agente r
+  [FALSE POSITIVE] adv-l-002 (codigo2fa): Tu codigo para autorizar la transferencia es 552103. Caduca en 2 minut
+  [FALSE POSITIVE] adv-l-009 (familia): Papa, te he hecho un Bizum de 50€ por la cena del otro dia. Muchas gra
+  [FALSE POSITIVE] adv-l-010 (familia): Mama, me puedes hacer un Bizum de 20€ para el libro del cole? Te lo de
+
+✓ Wrote results/es_adversarial_predictions.csv and results/es_adversarial_metrics.json
+== es_adversarial_v2 ==
+Dataset: data/es_adversarial_v2.jsonl  (227 messages)  PHASE=1 GUARDRAILS=permissive SAMPLING=greedy
+
+  …20/227
+  …40/227
+  …60/227
+  …80/227
+  …100/227
+  …120/227
+  …140/227
+  …160/227
+  …180/227
+  …200/227
+  …220/227
+
+================ RESULTS: results/es_adversarial_v2 ================
+Confusion matrix (positive = scam):
+                 pred JUNK   pred ALLOW
+  real scam        TP=119        FN=4
+  real legit       FP=7        TN=97
+
+Accuracy .................. 95.2%
+Precision (scam) .......... 94.4%
+Recall (scams caught) ..... 96.7%
+F1 ........................ 0.956
+>>> FALSE POSITIVES (legit blocked) = 6.7%  [KEY METRIC]
+>>> False negatives (scam passed) .. = 3.3%
+
+Latency: first=3ms  p50=308ms  p95=357ms
+Decided by: OTP rule=7  ·  strong signal=53  ·  model=167
+Inference errors: 0  (guardrailViolation: 0, refusal: 0)
+Answers that were neither JUNK nor ALLOW (e.g. a text refusal): 0
+
+Two-level action by provenance (block = silent · warn = alert user · allow):
+  scams: BLOCK=53  WARN=67  PASSED_SILENTLY=3  → protected (block+warn)=97.6%
+  legit: BLOCKED_SILENTLY(harm)=0  WARN=7  ALLOW=97  → harmful blocks=0.0%
+
+Accuracy by difficulty:
+  frontier: 134/141 (95.0%)
+  hard: 82/86 (95.3%)
+
+ERRORS:
+  [false negative] adv-s-028 (banco): Gracias por contactar con el servicio de atencion de BBVA. Un agente r
+  [FALSE POSITIVE] adv-l-002 (codigo2fa): Tu codigo para autorizar la transferencia es 552103. Caduca en 2 minut
+  [FALSE POSITIVE] adv-l-009 (familia): Papa, te he hecho un Bizum de 50€ por la cena del otro dia. Muchas gra
+  [FALSE POSITIVE] adv-l-010 (familia): Mama, me puedes hacer un Bizum de 20€ para el libro del cole? Te lo de
+  [FALSE POSITIVE] adv2a-017 (codigo2fa): CaixaBank: 736 214 es tu código de verificación. Caduca en 5 minutos. 
+  [false negative] adv2b-015 (telco): Vodafone: su router presenta una avería en la red. Contacte con soport
+  [FALSE POSITIVE] adv2c-016 (familia): Abu, ¿me haces un Bizum de 15€ para la excursión del cole? Es que a ma
+  [false negative] adv2d-001 (romance): Hola, ¿eres Ana? Perdona, creo que me equivoqué de número. Por cierto,
+  [FALSE POSITIVE] adv2f-013 (codigo2fa): Tu codigo de verificacion de WhatsApp es 812-449. No lo compartas.
+  [false negative] adv2f-024 (banco): BBVA Atencion: hemos actualizado nuestro numero. Guarda este contacto 
+  [FALSE POSITIVE] adv2e-025 (compra): Ikea: tu pedido esta listo para recoger en la tienda de Ensanche de Va
+
+✓ Wrote results/es_adversarial_v2_predictions.csv and results/es_adversarial_v2_metrics.json
+== Done. Results in results/ ==

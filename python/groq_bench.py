@@ -182,7 +182,9 @@ def groq_call(text: str, model: str, key: str, retries: int = 6):
             usage = {"prompt": u.get("prompt_tokens", 0), "completion": u.get("completion_tokens", 0)}
             with _usage_lock:
                 _usage["prompt"] += usage["prompt"]; _usage["completion"] += usage["completion"]; _usage["calls"] += 1
-            return ("JUNK" if "JUNK" in content.upper() else "ALLOW"), usage
+            up = content.upper()
+            # neither JUNK nor ALLOW (e.g. a refusal): treated as ALLOW, but flagged
+            return ("JUNK" if "JUNK" in up else "ALLOW"), usage, ("JUNK" not in up and "ALLOW" not in up)
         except urllib.error.HTTPError as e:
             last = f"HTTP {e.code}"
             if e.code == 429:
@@ -206,8 +208,8 @@ def classify(text: str, model: str, key: str):
     if has_strong_signal(text):
         return "JUNK", "strong"
     try:
-        pred, _ = groq_call(text, model, key)
-        return pred, "model"
+        pred, _, unparsed = groq_call(text, model, key)
+        return pred, ("model_unparsed" if unparsed else "model")
     except DailyBudgetError:
         raise
     except Exception:
@@ -283,13 +285,14 @@ def run_eval(path, model, prefix, key, limit=None):
                 print(f"  …{done}/{len(samples)}  (tokens used: {_usage['prompt']+_usage['completion']})")
 
     TP = FP = TN = FN = 0
-    n_otp = n_strong = n_mdl = errors = 0
+    n_otp = n_strong = n_mdl = errors = unparsed = 0
     rows = []
     for s, (pred, source) in zip(samples, results):
         if source == "otp": n_otp += 1
         elif source == "strong": n_strong += 1
         else: n_mdl += 1
         if source == "model_error": errors += 1
+        if source == "model_unparsed": unparsed += 1
         pred_scam = (pred == "JUNK"); is_scam = (s["label"] == "scam")
         if is_scam and pred_scam: TP += 1
         elif not is_scam and pred_scam: FP += 1
@@ -319,6 +322,7 @@ F1 ........................ {f1:.3f}
 >>> FALSE POSITIVES (legit blocked) = {fpr*100:.1f}%  [KEY METRIC]
 >>> False negatives (scam passed) .. = {fnr*100:.1f}%
 Decided by: OTP rule={n_otp}  ·  strong signal={n_strong}  ·  model={n_mdl}
+Answers that were neither JUNK nor ALLOW: {unparsed}
 Tokens: prompt={_usage['prompt']}  completion={_usage['completion']}  total={_usage['prompt']+_usage['completion']}""")
     if errors:
         print(f"⚠️ {errors} inference errors (treated as ALLOW, fail open).")
@@ -331,7 +335,7 @@ Tokens: prompt={_usage['prompt']}  completion={_usage['completion']}  total={_us
 
     metrics = {"dataset": path, "model": model, "n": n, "TP": TP, "FP": FP, "TN": TN, "FN": FN,
                "accuracy": acc, "precision": prec, "recall": rec, "f1": f1,
-               "false_positive_rate": fpr, "false_negative_rate": fnr, "inference_errors": errors,
+               "false_positive_rate": fpr, "false_negative_rate": fnr, "inference_errors": errors, "unparsed_answers": unparsed,
                "tokens_prompt": _usage["prompt"], "tokens_completion": _usage["completion"]}
     with open(f"{prefix}_metrics.json", "w") as f:
         json.dump(metrics, f, indent=2, ensure_ascii=False)
